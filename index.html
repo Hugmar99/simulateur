@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulateur</title>
+<meta name="theme-color" content="#245C8F">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F1; font-family: system-ui, sans-serif; color: #1A1A1A; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+  .msg { max-width: 420px; margin: 0 auto; padding: 48px 20px; line-height: 1.5; }
+  .msg b { color: #245C8F; }
+  .msg a { color: #245C8F; }
+</style>
+</head>
+<body>
+<script>
+  // Adresse de la web app Apps Script (Déployer → Gérer les déploiements → URL qui finit par /exec)
+  var EXEC_URL = 'https://script.google.com/a/macros/lagencesansnom.fr/s/AKfycby39C4P-KfMagZjaGF4JhjUhbWXJoO7ZzSdQDk_oEtfDk6daoXW51rcopjCVnh96H14oQ/exec';
+
+  if (/^https:\/\/script\.google\.com\/.+\/exec$/.test(EXEC_URL)) {
+    var f = document.createElement('iframe');
+    f.src = EXEC_URL;
+    f.title = 'Simulateur de rentabilité';
+    f.allow = 'clipboard-read; clipboard-write';
+    document.body.appendChild(f);
+  } else {
+    document.body.innerHTML = '<div class="msg"><b>Simulateur</b><p>L\'adresse de la web app n\'est pas encore renseignée : ' +
+      'colle l\'URL <code>/exec</code> dans <code>EXEC_URL</code> en haut de <code>index.html</code>.</p></div>';
+  }
+
+  // Service worker : nécessaire pour que Chrome propose « Installer l'application »
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+<noscript><div class="msg">Active JavaScript pour ouvrir le simulateur.</div></noscript>
+</body>
+</html>
